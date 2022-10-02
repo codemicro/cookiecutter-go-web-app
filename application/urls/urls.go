@@ -1,5 +1,0 @@
-package urls
-
-const (
-	Index = "/"
-)

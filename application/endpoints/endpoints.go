@@ -1,10 +1,12 @@
 package endpoints
 
 import (
+	"github.com/codemicro/go-fiber-sql/application/config"
 	"github.com/codemicro/go-fiber-sql/application/db"
-	"github.com/codemicro/go-fiber-sql/application/urls"
+	"github.com/codemicro/go-fiber-sql/application/paths"
 	"github.com/codemicro/go-fiber-sql/application/util"
 	"github.com/gofiber/fiber/v2"
+	"time"
 )
 
 type Endpoints struct {
@@ -19,10 +21,14 @@ func New(dbi *db.DB) *Endpoints {
 
 func (e *Endpoints) SetupApp() *fiber.App {
 	app := fiber.New(fiber.Config{
-		ErrorHandler: util.JSONErrorHandler,
+		ErrorHandler:          util.JSONErrorHandler,
+		DisableStartupMessage: !config.Debug.Enabled,
+
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
 	})
 
-	app.Get(urls.Index, e.Index)
+	app.Get(paths.Index, e.Index)
 
 	return app
 }

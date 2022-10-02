@@ -1,9 +1,10 @@
 package config
 
 import (
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -16,19 +17,31 @@ var (
 	lastKey               string
 )
 
-func loadConfigFileFromDisk() {
+func mustLoadConfigFile() {
+	if err := loadConfigFile(); err != nil {
+		log.Fatal().Err(err).Send()
+	}
+}
+
+func loadConfigFile() error {
 	if rawConfigFileContents != nil {
-		return
+		return nil
 	}
 
-	fcont, err := ioutil.ReadFile(configFileName)
+	fcont, err := os.ReadFile(configFileName)
 	if err != nil {
-		log.Fatal().Err(err).Msgf("failed to load file %s", configFileName)
+		return errors.Wrap(err, "failed to load config file")
 	}
 	rawConfigFileContents = make(map[string]any)
 	if err := yaml.Unmarshal(fcont, &rawConfigFileContents); err != nil {
-		log.Fatal().Err(err).Msg("could not unmarshal config file")
+		return errors.Wrap(err, "could not unmarshal config file")
 	}
+
+	return nil
+}
+
+func Reload() error {
+	return loadConfigFile()
 }
 
 type optionalItem struct {
@@ -38,9 +51,9 @@ type optionalItem struct {
 
 var indexedPartRegexp = regexp.MustCompile(`(?m)([a-zA-Z]+)(?:\[(\d+)\])?`)
 
-func fetchFromFile(key string) optionalItem {
+func get(key string) optionalItem {
 	// http[2].bananas
-	loadConfigFileFromDisk()
+	mustLoadConfigFile()
 	lastKey = key
 
 	parts := strings.Split(key, ".")
@@ -59,7 +72,7 @@ func fetchFromFile(key string) optionalItem {
 		if isIndexed {
 			arr, conversionOk := item.([]any)
 			if !conversionOk {
-				log.Fatal().Msgf("attempted to index non-indexable item %s", key)
+				log.Fatal().Msgf("attempted to index non-indexable config item %s", key)
 			}
 			cursor = arr[index]
 		} else {
@@ -70,15 +83,15 @@ func fetchFromFile(key string) optionalItem {
 }
 
 func required(key string) optionalItem {
-	opt := fetchFromFile(key)
+	opt := get(key)
 	if !opt.found {
-		log.Fatal().Msgf("required key %s not found", lastKey)
+		log.Fatal().Msgf("required key %s not found in config file", lastKey)
 	}
 	return opt
 }
 
 func withDefault(key string, defaultValue any) optionalItem {
-	opt := fetchFromFile(key)
+	opt := get(key)
 	if !opt.found {
 		return optionalItem{item: defaultValue, found: true}
 	}
