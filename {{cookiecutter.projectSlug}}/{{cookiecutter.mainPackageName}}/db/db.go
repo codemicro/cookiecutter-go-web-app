@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"database/sql"
-	"github.com/codemicro/go-fiber-sql/application/config"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
@@ -11,6 +10,7 @@ import (
 	"github.com/uptrace/bun/dialect/sqlitedialect"
 	"github.com/uptrace/bun/extra/bundebug"
 	"time"
+	"{{cookiecutter.__mainPackagePath}}/config"
 )
 
 type DB struct {

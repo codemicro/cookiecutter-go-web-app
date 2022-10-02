@@ -1,0 +1,5 @@
+# {{ cookiecutter.projectName }}
+
+*{{ cookiecutter.projectDescription }}*
+
+---

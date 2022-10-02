@@ -2,9 +2,9 @@ package migrations
 
 import (
 	"context"
-	"github.com/codemicro/go-fiber-sql/application/db/models"
 	"github.com/pkg/errors"
 	"github.com/uptrace/bun"
+	"{{cookiecutter.__mainPackagePath}}/db/models"
 )
 
 func init() {

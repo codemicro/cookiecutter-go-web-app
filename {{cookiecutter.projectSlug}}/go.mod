@@ -1,6 +1,6 @@
-module github.com/codemicro/go-fiber-sql
+module {{ cookiecutter.modulePath }}
 
-go 1.18
+go {{ cookiecutter.minimumGoVersion }}
 
 require (
 	github.com/gofiber/fiber/v2 v2.35.0

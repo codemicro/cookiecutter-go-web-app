@@ -1,0 +1,12 @@
+{
+  "projectName": "Hello World",
+  "projectDescription": "This is a web application that says hello world.",
+
+  "projectSlug": "helloWorld",
+  "mainPackageName": "{{ cookiecutter.projectSlug }}",
+  "modulePath": "github.com/codemicro/{{ cookiecutter.projectSlug }}",
+
+  "minimumGoVersion": "1.19",
+
+  "__mainPackagePath": "{{ cookiecutter.modulePath }}/{{ cookiecutter.mainPackageName }}"
+}

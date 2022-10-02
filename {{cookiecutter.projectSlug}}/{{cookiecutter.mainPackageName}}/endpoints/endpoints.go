@@ -1,12 +1,12 @@
 package endpoints
 
 import (
-	"github.com/codemicro/go-fiber-sql/application/config"
-	"github.com/codemicro/go-fiber-sql/application/db"
-	"github.com/codemicro/go-fiber-sql/application/paths"
-	"github.com/codemicro/go-fiber-sql/application/util"
 	"github.com/gofiber/fiber/v2"
 	"time"
+	"{{cookiecutter.__mainPackagePath}}/config"
+	"{{cookiecutter.__mainPackagePath}}/db"
+	"{{cookiecutter.__mainPackagePath}}/paths"
+	"{{cookiecutter.__mainPackagePath}}/util"
 )
 
 type Endpoints struct {

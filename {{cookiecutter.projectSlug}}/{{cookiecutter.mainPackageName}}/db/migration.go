@@ -3,11 +3,11 @@ package db
 import (
 	"context"
 	_ "embed"
-	"github.com/codemicro/go-fiber-sql/application/db/migrations"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"github.com/uptrace/bun/migrate"
 	"time"
+	"{{cookiecutter.__mainPackagePath}}/db/migrations"
 )
 
 func (db *DB) Migrate() error {

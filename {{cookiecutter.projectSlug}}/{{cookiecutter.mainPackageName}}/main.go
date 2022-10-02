@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/codemicro/go-fiber-sql/application/config"
-	"github.com/codemicro/go-fiber-sql/application/db"
-	"github.com/codemicro/go-fiber-sql/application/endpoints"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"os"
 	"os/signal"
 	"strconv"
 	"syscall"
+	"{{cookiecutter.__mainPackagePath}}/config"
+	"{{cookiecutter.__mainPackagePath}}/db"
+	"{{cookiecutter.__mainPackagePath}}/endpoints"
 )
 
 func run() error {
